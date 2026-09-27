@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | AI Traffic Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+    }
+    .login-box {
+      background: rgba(255,255,255,0.1);
+      padding: 40px;
+      border-radius: 15px;
+      max-width: 400px;
+      margin: 100px auto;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+    }
+    .btn-custom {
+      background-color: #ff9800;
+      border: none;
+      width: 100%;
+      padding: 10px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .btn-custom:hover {
+      background-color: #ffa726;
+    }
+    a {
+      color: #ffb74d;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+
+    /* Navbar */
+    .navbar {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      transition: background 0.3s;
+    }
+    .navbar-brand {
+      font-weight: 700;
+      color: #ffcc00 !important;
+      letter-spacing: 1px;
+    }
+    .nav-link {
+      color: #fff !important;
+      font-weight: 500;
+      margin: 0 8px;
+      transition: 0.3s;
+    }
+    .nav-link:hover {
+      color: #ffcc00 !important;
+      transform: translateY(-2px);
+    }
+
+
+  </style>
+</head>
+<body>
+
+
+    <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">🚦 AI Traffic Management</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="{% url 'register' %}" class="nav-link">Register</a></li>
+          <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="login-box">
+    <h2 class="text-center mb-4">🚗 Login to AI Traffic System</h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="vehicle_number" class="form-label">Vehicle Number</label>
+        <input type="text" class="form-control" id="vehicle_number" name="vehicle_number" required placeholder="Enter your vehicle number">
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required placeholder="Enter your password">
+      </div>
+
+      <button type="submit" class="btn btn-custom">Login</button>
+    </form>
+
+    <p class="text-center mt-3">Don’t have an account? <a href="{% url 'register' %}">Register</a></p>
+  </div>
+</body>
+</html>

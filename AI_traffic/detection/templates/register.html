@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration | AI Traffic Management</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { font-family: 'Poppins', sans-serif; }
+    body {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      min-height: 100vh;
+      color: white;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated gradient overlay */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.1));
+      backdrop-filter: blur(4px);
+      animation: gradientShift 10s infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes gradientShift {
+      0% { background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.1)); }
+      100% { background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.15)); }
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      transition: background 0.3s;
+    }
+    .navbar-brand {
+      font-weight: 700;
+      color: #ffcc00 !important;
+      letter-spacing: 1px;
+    }
+    .nav-link {
+      color: #fff !important;
+      font-weight: 500;
+      margin: 0 8px;
+      transition: 0.3s;
+    }
+    .nav-link:hover {
+      color: #ffcc00 !important;
+      transform: translateY(-2px);
+    }
+
+
+    .register-card {
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      border-radius: 25px;
+      padding: 40px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      margin-top: 100px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 2;
+    }
+
+    .register-card label {
+      font-weight: 500;
+    }
+
+    .form-control {
+      background-color: rgba(255,255,255,0.2);
+      border: none;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .form-control::placeholder {
+      color: #ddd;
+    }
+
+    .btn-custom {
+      background-color: #ffcc00;
+      color: #000;
+      font-weight: 600;
+      border-radius: 30px;
+      transition: all 0.3s;
+    }
+    .btn-custom:hover {
+      background-color: #fff;
+      color: #1e3c72;
+    }
+
+    .footer {
+      background-color: #0b1d4a;
+      color: #ccc;
+      padding: 20px;
+      text-align: center;
+      margin-top: 80px;
+      z-index: 2;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">🚦 AI Traffic Management</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+          <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">Login</a></li>
+          <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Registration Form -->
+  <div class="container position-relative" style="z-index:2;">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="register-card">
+          <h3 class="text-center fw-bold mb-4">🚗 Vehicle Registration</h3>
+
+          {% if message %}
+            <div class="alert alert-{{alert_type}} text-center">{{ message }}</div>
+          {% endif %}
+
+          <form method="POST" enctype="multipart/form-data" id="regForm">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label class="form-label">Full Name</label>
+              <input type="text" name="name" class="form-control" required placeholder="Enter your full name">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Contact Number</label>
+              <input type="text" name="contact" class="form-control" required placeholder="Enter your contact number">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Vehicle Number</label>
+              <input type="text" name="vehicle_number" class="form-control" required placeholder="Enter your vehicle number">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Upload Image</label>
+              <input type="file" name="image" class="form-control" accept="image/*" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input type="password" name="password" id="password" class="form-control" required placeholder="Create a password">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Confirm Password</label>
+              <input type="password" name="confirm_password" id="confirm_password" class="form-control" required placeholder="Re-enter your password">
+              <small id="passwordMatchMsg"></small>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-custom px-5 py-2 mt-3">Register</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>© 2025 AI Traffic Management | Designed by Hardik Yadav</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Frontend Password Match Check
+    const pwd = document.getElementById('password');
+    const confirmPwd = document.getElementById('confirm_password');
+    const msg = document.getElementById('passwordMatchMsg');
+
+    confirmPwd.addEventListener('keyup', () => {
+      if (confirmPwd.value === pwd.value) {
+        msg.textContent = "✅ Passwords match";
+        msg.style.color = "lime";
+      } else {
+        msg.textContent = "❌ Passwords do not match";
+        msg.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>
